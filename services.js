@@ -54,8 +54,18 @@ const githubApi = async () => {
 
 const nytApi = async () => {
   const key = process.env.NYT_API_KEY;
+  const response = await axios.get(
+    `https://api.nytimes.com/svc/topstories/v2/home.json?api-key=${key}`
+  );
 
-  return key;
+  const formattedData = response.results.map((object) => ({
+    title: object.title,
+    section: object.section,
+    url: object.url,
+    author: object.byline,
+    source: 'New York Times',
+  }));
+  return formattedData;
 };
 
 module.exports = {
