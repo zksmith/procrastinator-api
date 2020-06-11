@@ -14,7 +14,7 @@ app.get('/reddit', (req, res) => {
   data.getRedditData(req, res);
 });
 
-app.get('/hn', (req, res) => {
+app.get('/hackernews', (req, res) => {
   data.getHackerNewsData(req, res);
 });
 
