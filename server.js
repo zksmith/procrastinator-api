@@ -10,6 +10,10 @@ app.get('/', (req, res) => {
   res.json(':)');
 });
 
+app.get('/allposts', (req, res) => {
+  data.getAllData(req, res);
+});
+
 app.get('/reddit', (req, res) => {
   data.getRedditData(req, res);
 });
