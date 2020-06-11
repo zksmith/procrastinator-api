@@ -22,6 +22,10 @@ app.get('/hackernews', (req, res) => {
   data.getHackerNewsData(req, res);
 });
 
+app.get('/githubtrending', (req, res) => {
+  data.getGithubData(req, res);
+});
+
 const PORT = process.env.PORT;
 app.listen(PORT || 5000, () => {
   console.log(`app is running on ${PORT ? PORT : '5000'}`);

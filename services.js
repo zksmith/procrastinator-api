@@ -1,15 +1,15 @@
 const axios = require('axios');
 
 const redditApi = async () => {
-  const data = await axios.get(
+  const response = await axios.get(
     'https://www.reddit.com/r/all/hot.json?limit=20'
   );
-  const formattedData = data.data.data.children.map((child) => ({
-    title: child.data.title,
-    upvotes: child.data.ups,
-    url: child.data.url,
-    author: child.data.author,
-    comments: child.data.num_comments,
+  const formattedData = response.data.data.children.map((object) => ({
+    title: object.data.title,
+    upvotes: object.data.ups,
+    url: object.data.url,
+    author: object.data.author,
+    comments: object.data.num_comments,
     source: 'Reddit',
   }));
   return formattedData;
@@ -36,7 +36,24 @@ const hackerNewsApi = async () => {
   return formattedData;
 };
 
+const githubApi = async () => {
+  const response = await axios.get(
+    'https://ghapi.huchen.dev/repositories?since=daily'
+  );
+  const formattedData = response.data.map((object) => ({
+    title: object.description,
+    stars: object.stars,
+    url: object.url,
+    author: object.author,
+    forks: object.forks,
+    source: 'Github Trending',
+  }));
+
+  return formattedData;
+};
+
 module.exports = {
   redditApi: redditApi,
   hackerNewsApi: hackerNewsApi,
+  githubApi: githubApi,
 };

@@ -1,4 +1,3 @@
-const axios = require('axios');
 const shuffle = require('knuth-shuffle').knuthShuffle;
 const services = require('../services');
 
@@ -20,13 +19,23 @@ const getHackerNewsData = async (req, res) => {
   }
 };
 
+const getGithubData = async (req, res) => {
+  try {
+    const githubData = await services.githubApi();
+    res.json(githubData);
+  } catch (err) {
+    res.status(500).json('Error loading Github data');
+  }
+};
+
 const getAllData = async (req, res) => {
   try {
     const redditData = await services.redditApi();
     const hackerNewsData = await services.hackerNewsApi();
+    const githubData = await services.githubApi();
 
     //Randomize the data array using "Knuth Shuffle"
-    const shuffled = shuffle([...redditData, ...hackerNewsData]);
+    const shuffled = shuffle([...redditData, ...hackerNewsData, ...githubData]);
 
     res.json(shuffled);
   } catch (err) {
@@ -38,4 +47,5 @@ module.exports = {
   getAllData: getAllData,
   getRedditData: getRedditData,
   getHackerNewsData: getHackerNewsData,
+  getGithubData: getGithubData,
 };
