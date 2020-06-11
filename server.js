@@ -1,7 +1,9 @@
 const express = require('express');
 const axios = require('axios');
+const cors = require('cors');
 
 const app = express();
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.json(':)');
@@ -30,6 +32,6 @@ app.get('/reddit', (req, res) => {
 });
 
 const PORT = process.env.PORT;
-app.listen(PORT || 3000, () => {
+app.listen(PORT || 3001, () => {
   console.log(`app is running on ${PORT ? PORT : '3000'}`);
 });
