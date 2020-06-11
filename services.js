@@ -57,7 +57,7 @@ const nytApi = async () => {
   const response = await axios.get(
     `https://api.nytimes.com/svc/topstories/v2/home.json?api-key=${key}`
   );
-  console.log(response);
+  console.log(response.results);
   const formattedData = response.results.map((object) => ({
     title: object.title,
     section: object.section,
