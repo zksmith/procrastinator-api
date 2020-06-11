@@ -53,7 +53,7 @@ const githubApi = async () => {
 };
 
 const nytApi = async () => {
-  const key = process.env.NY_API_KEY;
+  const key = process.env.NYT_API_KEY;
 
   return key;
 };
