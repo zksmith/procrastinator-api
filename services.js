@@ -2,7 +2,7 @@ const axios = require('axios');
 
 const redditApi = async () => {
   const response = await axios.get(
-    'https://www.reddit.com/r/all/hot.json?limit=20'
+    'https://www.reddit.com/r/all/hot.json?limit=25'
   );
   const formattedData = response.data.data.children.map((object) => ({
     title: object.data.title,
@@ -20,7 +20,7 @@ const hackerNewsApi = async () => {
     'https://hacker-news.firebaseio.com/v0/topstories.json'
   );
   const apiRequestsUrls = response.data
-    .slice(0, 20)
+    .slice(0, 25)
     .map((id) => `https://hacker-news.firebaseio.com/v0/item/${id}.json`);
   const allNewsData = await axios.all(
     apiRequestsUrls.map((url) => axios.get(url))
@@ -40,7 +40,7 @@ const githubApi = async () => {
   const response = await axios.get(
     'https://ghapi.huchen.dev/repositories?since=daily'
   );
-  const formattedData = response.data.map((object) => ({
+  const formattedData = response.data.slice(0, 25).map((object) => ({
     title: object.description,
     stars: object.stars,
     url: object.url,
@@ -57,7 +57,7 @@ const nytApi = async () => {
   const response = await axios.get(
     `https://api.nytimes.com/svc/topstories/v2/home.json?api-key=${key}`
   );
-  const formattedData = response.data.results.map((object) => ({
+  const formattedData = response.data.results.slice(0, 25).map((object) => ({
     title: object.title,
     section: object.section,
     url: object.url,
