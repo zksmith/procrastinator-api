@@ -42,9 +42,15 @@ const getAllData = async (req, res) => {
     const redditData = await services.redditApi();
     const hackerNewsData = await services.hackerNewsApi();
     const githubData = await services.githubApi();
+    const nytData = await services.nytApi();
 
     //Randomize the data array using "Knuth Shuffle"
-    const shuffled = shuffle([...redditData, ...hackerNewsData, ...githubData]);
+    const shuffled = shuffle([
+      ...redditData,
+      ...hackerNewsData,
+      ...githubData,
+      ...nytData,
+    ]);
 
     res.json(shuffled);
   } catch (err) {
