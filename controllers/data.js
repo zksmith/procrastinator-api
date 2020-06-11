@@ -28,6 +28,15 @@ const getGithubData = async (req, res) => {
   }
 };
 
+const getNytData = async (req, res) => {
+  try {
+    const nytData = await services.nytApi();
+    res.json(nytData);
+  } catch (err) {
+    res.status(500).json('Error loading New York Times data');
+  }
+};
+
 const getAllData = async (req, res) => {
   try {
     const redditData = await services.redditApi();
@@ -48,4 +57,5 @@ module.exports = {
   getRedditData: getRedditData,
   getHackerNewsData: getHackerNewsData,
   getGithubData: getGithubData,
+  getNytData: getNytData,
 };

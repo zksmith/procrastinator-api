@@ -52,8 +52,15 @@ const githubApi = async () => {
   return formattedData;
 };
 
+const nytApi = async () => {
+  const key = process.env.NY_API_KEY;
+
+  return key;
+};
+
 module.exports = {
   redditApi: redditApi,
   hackerNewsApi: hackerNewsApi,
   githubApi: githubApi,
+  nytApi: nytApi,
 };
