@@ -85,13 +85,14 @@ app.post('/signin', (req, res) => {
 
 app.put('/bookmark', (req, res) => {
   const { id, bookmarks } = req.body;
+  const bookmarksString = JSON.stringify(bookmarks);
 
   db('users')
     .where('id', '=', id)
-    .update('bookmarks', bookmarks)
+    .update('bookmarks', bookmarksString)
     .returning('bookmarks')
     .then((bookmarks) => {
-      res.json(bookmarks[0]);
+      res.json(JSON.parse(bookmarks[0]));
     })
     .catch((err) => res.status(400).json('unable to add bookmark'));
 });
