@@ -52,10 +52,7 @@ app.post('/register', (req, res) => {
       })
       .then(trx.commit)
       .catch(trx.rollback);
-  }).catch((err) => {
-    console.log(err);
-    res.status(400).json('unable to register');
-  });
+  }).catch((err) => res.status(400).json('unable to register'));
 });
 
 app.post('/signin', (req, res) => {
@@ -96,7 +93,10 @@ app.put('/bookmark', (req, res) => {
     .then((bookmarks) => {
       res.json(bookmarks);
     })
-    .catch((err) => res.status(400).json('unable to get entries'));
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json('unable to add bookmark');
+    });
 });
 
 app.get('/allposts', (req, res) => {
