@@ -92,6 +92,7 @@ const twitchApi = async () => {
     title: object.title,
     viewers: object.viewer_count,
     thumbnail: object.thumbnail_url,
+    user: object.user_name,
   }));
 
   return formattedData;
