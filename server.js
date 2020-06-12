@@ -88,7 +88,7 @@ app.put('/bookmark', (req, res) => {
 
   db('users')
     .where('id', '=', id)
-    .insert('bookmarks', bookmarks)
+    .update('bookmarks', bookmarks)
     .returning('bookmarks')
     .then((bookmarks) => {
       res.json(bookmarks);
