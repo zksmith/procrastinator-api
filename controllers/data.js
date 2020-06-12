@@ -37,6 +37,15 @@ const sendNytData = async (req, res) => {
   }
 };
 
+const sendTwitchData = async (req, res) => {
+  try {
+    const twitchData = await services.twitchApi();
+    res.json(twitchData);
+  } catch (err) {
+    res.status(500).json('Error loading Twitch streams');
+  }
+};
+
 const sendAllData = async (req, res) => {
   try {
     const redditData = await services.redditApi();
@@ -59,9 +68,10 @@ const sendAllData = async (req, res) => {
 };
 
 module.exports = {
-  sendAllData: sendAllData,
-  sendRedditData: sendRedditData,
-  sendHackerNewsData: sendHackerNewsData,
-  sendGithubData: sendGithubData,
-  sendNytData: sendNytData,
+  sendAllData,
+  sendRedditData,
+  sendHackerNewsData,
+  sendGithubData,
+  sendNytData,
+  sendTwitchData,
 };

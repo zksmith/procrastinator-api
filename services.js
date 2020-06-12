@@ -5,6 +5,7 @@ const redditApi = async () => {
   const response = await axios.get(
     'https://www.reddit.com/r/all/hot.json?limit=25'
   );
+
   const formattedData = response.data.data.children.map((object) => ({
     title: object.data.title,
     upvotes: object.data.ups,
@@ -24,9 +25,11 @@ const hackerNewsApi = async () => {
   const apiRequestsUrls = response.data
     .slice(0, 25)
     .map((id) => `https://hacker-news.firebaseio.com/v0/item/${id}.json`);
+
   const allNewsData = await axios.all(
     apiRequestsUrls.map((url) => axios.get(url))
   );
+
   const formattedData = allNewsData.map(({ data }) => ({
     title: data.title,
     upvotes: data.score,
@@ -43,6 +46,7 @@ const githubApi = async () => {
   const response = await axios.get(
     'https://ghapi.huchen.dev/repositories?since=daily'
   );
+
   const formattedData = response.data.slice(0, 25).map((object) => ({
     title: object.description,
     stars: object.stars,
@@ -57,10 +61,10 @@ const githubApi = async () => {
 
 // New York times data
 const nytApi = async () => {
-  const key = process.env.NYT_API_KEY;
   const response = await axios.get(
-    `https://api.nytimes.com/svc/topstories/v2/home.json?api-key=${key}`
+    `https://api.nytimes.com/svc/topstories/v2/home.json?api-key=${process.env.NYT_API_KEY}`
   );
+
   const formattedData = response.data.results.slice(0, 25).map((object) => ({
     title: object.title,
     section: object.section,
@@ -68,14 +72,35 @@ const nytApi = async () => {
     author: object.byline,
     source: 'New York Times',
   }));
+
   return formattedData;
 };
 
 // Twitch Data
+const helix = axios.create({
+  baseURL: 'https://api.twitch.tv/helix/',
+  headers: {
+    'Client-ID': process.env.TWITCH_ID,
+    Authorization: `Bearer ${process.env.TWITCH_TOKEN}`,
+  },
+});
+
+const twitchApi = async () => {
+  const response = await helix.get('streams?first=100');
+
+  const formattedData = response.data.data.map((object) => ({
+    title: object.title,
+    viewers: object.viewer_count,
+    thumbnail: object.thumbnail_url,
+  }));
+
+  return formattedData;
+};
 
 module.exports = {
-  redditApi: redditApi,
-  hackerNewsApi: hackerNewsApi,
-  githubApi: githubApi,
-  nytApi: nytApi,
+  redditApi,
+  hackerNewsApi,
+  githubApi,
+  nytApi,
+  twitchApi,
 };

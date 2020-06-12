@@ -30,6 +30,10 @@ app.get('/newyorktimes', (req, res) => {
   data.sendNytData(req, res);
 });
 
+app.get('/twitchstreams', (req, res) => {
+  data.sendTwitchData(req, res);
+});
+
 const PORT = process.env.PORT;
 app.listen(PORT || 5000, () => {
   console.log(`app is running on ${PORT ? PORT : '5000'}`);
