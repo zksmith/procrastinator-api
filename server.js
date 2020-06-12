@@ -91,12 +91,9 @@ app.put('/bookmark', (req, res) => {
     .update('bookmarks', bookmarks)
     .returning('bookmarks')
     .then((bookmarks) => {
-      res.json(bookmarks);
+      res.json(bookmarks[0]);
     })
-    .catch((err) => {
-      console.log(err);
-      res.status(400).json('unable to add bookmark');
-    });
+    .catch((err) => res.status(400).json('unable to add bookmark'));
 });
 
 app.get('/allposts', (req, res) => {
