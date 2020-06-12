@@ -86,6 +86,19 @@ app.post('/signin', (req, res) => {
     .catch((err) => res.status(400).json('wrong credentials'));
 });
 
+app.put('/bookmark', (req, res) => {
+  const { id, bookmarks } = req.body;
+
+  db('users')
+    .where('id', '=', id)
+    .insert('bookmarks', bookmarks)
+    .returning('bookmarks')
+    .then((bookmarks) => {
+      res.json(bookmarks);
+    })
+    .catch((err) => res.status(400).json('unable to get entries'));
+});
+
 app.get('/allposts', (req, res) => {
   data.sendAllData(req, res);
 });
