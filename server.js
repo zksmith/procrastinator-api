@@ -11,23 +11,23 @@ app.get('/', (req, res) => {
 });
 
 app.get('/allposts', (req, res) => {
-  data.getAllData(req, res);
+  data.sendAllData(req, res);
 });
 
 app.get('/reddit', (req, res) => {
-  data.getRedditData(req, res);
+  data.sendRedditData(req, res);
 });
 
 app.get('/hackernews', (req, res) => {
-  data.getHackerNewsData(req, res);
+  data.sendHackerNewsData(req, res);
 });
 
 app.get('/githubtrending', (req, res) => {
-  data.getGithubData(req, res);
+  data.sendGithubData(req, res);
 });
 
 app.get('/newyorktimes', (req, res) => {
-  data.getNytData(req, res);
+  data.sendNytData(req, res);
 });
 
 const PORT = process.env.PORT;

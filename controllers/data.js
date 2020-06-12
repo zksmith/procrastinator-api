@@ -1,7 +1,7 @@
 const shuffle = require('knuth-shuffle').knuthShuffle;
 const services = require('../services');
 
-const getRedditData = async (req, res) => {
+const sendRedditData = async (req, res) => {
   try {
     const redditData = await services.redditApi();
     res.json(redditData);
@@ -10,7 +10,7 @@ const getRedditData = async (req, res) => {
   }
 };
 
-const getHackerNewsData = async (req, res) => {
+const sendHackerNewsData = async (req, res) => {
   try {
     const hackerNewsData = await services.hackerNewsApi();
     res.json(hackerNewsData);
@@ -19,7 +19,7 @@ const getHackerNewsData = async (req, res) => {
   }
 };
 
-const getGithubData = async (req, res) => {
+const sendGithubData = async (req, res) => {
   try {
     const githubData = await services.githubApi();
     res.json(githubData);
@@ -28,7 +28,7 @@ const getGithubData = async (req, res) => {
   }
 };
 
-const getNytData = async (req, res) => {
+const sendNytData = async (req, res) => {
   try {
     const nytData = await services.nytApi();
     res.json(nytData);
@@ -37,7 +37,7 @@ const getNytData = async (req, res) => {
   }
 };
 
-const getAllData = async (req, res) => {
+const sendAllData = async (req, res) => {
   try {
     const redditData = await services.redditApi();
     const hackerNewsData = await services.hackerNewsApi();
@@ -59,9 +59,9 @@ const getAllData = async (req, res) => {
 };
 
 module.exports = {
-  getAllData: getAllData,
-  getRedditData: getRedditData,
-  getHackerNewsData: getHackerNewsData,
-  getGithubData: getGithubData,
-  getNytData: getNytData,
+  sendAllData: sendAllData,
+  sendRedditData: sendRedditData,
+  sendHackerNewsData: sendHackerNewsData,
+  sendGithubData: sendGithubData,
+  sendNytData: sendNytData,
 };

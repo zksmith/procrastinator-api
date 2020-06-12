@@ -1,5 +1,6 @@
 const axios = require('axios');
 
+// reddit data
 const redditApi = async () => {
   const response = await axios.get(
     'https://www.reddit.com/r/all/hot.json?limit=25'
@@ -15,6 +16,7 @@ const redditApi = async () => {
   return formattedData;
 };
 
+// Hacker news data
 const hackerNewsApi = async () => {
   const response = await axios.get(
     'https://hacker-news.firebaseio.com/v0/topstories.json'
@@ -36,6 +38,7 @@ const hackerNewsApi = async () => {
   return formattedData;
 };
 
+// Github Data
 const githubApi = async () => {
   const response = await axios.get(
     'https://ghapi.huchen.dev/repositories?since=daily'
@@ -52,6 +55,7 @@ const githubApi = async () => {
   return formattedData;
 };
 
+// New York times data
 const nytApi = async () => {
   const key = process.env.NYT_API_KEY;
   const response = await axios.get(
@@ -66,6 +70,8 @@ const nytApi = async () => {
   }));
   return formattedData;
 };
+
+// Twitch Data
 
 module.exports = {
   redditApi: redditApi,
