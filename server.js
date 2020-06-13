@@ -6,7 +6,6 @@ const knex = require('knex');
 const signin = require('./controllers/signin');
 const register = require('./controllers/register');
 const bookmark = require('./controllers/bookmark');
-const data = require('./controllers/data');
 const allposts = require('./controllers/allposts');
 const reddit = require('./controllers/reddit');
 const hackernews = require('./controllers/hackernews');
@@ -39,7 +38,7 @@ app.post('/signin', (req, res) => signin.handleSignin(req, res, db, bcrypt));
 
 app.put('/bookmark', (req, res) => bookmark.handleBookmark(req, res, db));
 
-app.get('/allposts', (req, res) => data.sendAllData(req, res));
+app.get('/allposts', (req, res) => allposts.handleAllRequest(req, res));
 
 app.get('/reddit', (req, res) => reddit.handleRedditRequest(req, res));
 
