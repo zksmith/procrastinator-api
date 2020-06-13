@@ -6,8 +6,12 @@ const knex = require('knex');
 const signin = require('./controllers/signin');
 const register = require('./controllers/register');
 const bookmark = require('./controllers/bookmark');
-const data = require('./controllers/data');
 const allposts = require('./controllers/allposts');
+const reddit = require('./controllers/reddit');
+const hackernews = require('./controllers/hackernews');
+const githubtrending = require('./controllers/githubtrending');
+const newyorktimes = require('./controllers/newyorktimes');
+const twitchstreams = require('./controllers/twitchstreams');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
@@ -35,25 +39,16 @@ app.post('/signin', (req, res) => signin.handleSignin(req, res, db, bcrypt));
 app.put('/bookmark', (req, res) => bookmark.handleBookmark(req, res, db));
 
 app.get('/allposts', (req, res) => allposts.handleAllRequest(req, res));
-
-app.get('/reddit', (req, res) => {
-  data.sendRedditData(req, res);
-});
-
-app.get('/hackernews', (req, res) => {
-  data.sendHackerNewsData(req, res);
-});
-
-app.get('/githubtrending', (req, res) => {
-  data.sendGithubData(req, res);
-});
-
+app.get('/reddit', (req, res) => reddit.handleRedditRequest(req, res));
+app.get('/hackernews', (req, res) => hackernews.handleHNRequest(req, res));
+app.get('/githubtrending', (req, res) =>
+  githubtrending.handleGithubRequest(req, res)
+);
 app.get('/newyorktimes', (req, res) => {
-  data.sendNytData(req, res);
+  newyorktimes.handleNYTRequest(req, res);
 });
-
 app.get('/twitchstreams', (req, res) => {
-  data.sendTwitchData(req, res);
+  twitchstreams.handleTwitchRequest(req, res);
 });
 
 const PORT = process.env.PORT;
