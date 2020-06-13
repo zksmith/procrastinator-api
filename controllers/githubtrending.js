@@ -1,6 +1,6 @@
 const services = require('../services');
 
-const handleGithubRequest = (req, res) => async (req, res) => {
+const handleGithubRequest = async (req, res) => {
   try {
     const githubData = await services.githubApi();
     res.json(githubData);
