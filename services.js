@@ -38,6 +38,7 @@ const hackerNewsApi = async () => {
     comments: data.descendants,
     source: 'Hacker News',
   }));
+
   return formattedData;
 };
 
