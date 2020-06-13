@@ -1,7 +1,13 @@
 const express = require('express');
 const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
-var knex = require('knex');
+const knex = require('knex');
+
+const signin = require('./controllers/signin');
+const register = require('./controllers/register');
+const bookmark = require('./controllers/bookmark');
+const data = require('./controllers/data');
+const allposts = require('./controllers/allposts');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
@@ -13,8 +19,6 @@ const db = knex({
   },
 });
 
-const data = require('./controllers/data');
-
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -23,83 +27,14 @@ app.get('/', (req, res) => {
   res.json(':)');
 });
 
-app.post('/register', (req, res) => {
-  const { email, name, password } = req.body;
+app.post('/register', (req, res) =>
+  register.handleRegister(req, res, db, bcrypt)
+);
+app.post('/signin', (req, res) => signin.handleSignin(req, res, db, bcrypt));
 
-  if (!email || !name || !password) {
-    return res.status(400).json('incorrect form submission');
-  }
-  const hash = bcrypt.hashSync(password);
-  db.transaction((trx) => {
-    trx
-      .insert({
-        hash: hash,
-        email: email,
-      })
-      .into('login')
-      .returning('email')
-      .then((loginEmail) => {
-        return trx('users')
-          .returning('*')
-          .insert({
-            name: name,
-            email: loginEmail[0],
-            joined: new Date(),
-          })
-          .then((user) => {
-            res.json(user[0]);
-          });
-      })
-      .then(trx.commit)
-      .catch(trx.rollback);
-  }).catch((err) => res.status(400).json('unable to register'));
-});
+app.put('/bookmark', (req, res) => bookmark.handleBookmark(req, res, db));
 
-app.post('/signin', (req, res) => {
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    return res.status(400).json('incorrect form submission');
-  }
-
-  db.select('email', 'hash')
-    .from('login')
-    .where('email', '=', email)
-    .then((data) => {
-      const isValid = bcrypt.compareSync(password, data[0].hash);
-      if (isValid) {
-        return db
-          .select('*')
-          .from('users')
-          .where('email', '=', email)
-          .then((user) => {
-            res.json(user[0]);
-          })
-          .catch((err) => res.status(400).json('unable to get user'));
-      } else {
-        res.status(400).json('wrond credentials');
-      }
-    })
-    .catch((err) => res.status(400).json('wrong credentials'));
-});
-
-app.put('/bookmark', (req, res) => {
-  const { id, bookmarks } = req.body;
-  const bookmarksString = JSON.stringify(bookmarks);
-
-  db('users')
-    .where('id', '=', id)
-    .update('bookmarks', bookmarksString)
-    .returning('bookmarks')
-    .then((bookmarks) => {
-      res.json(JSON.parse(bookmarks[0]));
-    })
-    .catch((err) => res.status(400).json('unable to add bookmark'));
-});
-
-app.get('/allposts', (req, res) => {
-  data.sendAllData(req, res);
-});
+app.get('/allposts', (req, res) => allposts.handleAllRequest(req, res));
 
 app.get('/reddit', (req, res) => {
   data.sendRedditData(req, res);
