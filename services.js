@@ -6,12 +6,13 @@ const redditApi = async () => {
     'https://www.reddit.com/r/all/hot.json?limit=25'
   );
 
-  const formattedData = response.data.data.children.map((object) => ({
-    title: object.data.title,
-    upvotes: object.data.ups,
-    url: object.data.url,
-    author: object.data.author,
-    comments: object.data.num_comments,
+  const formattedData = response.data.data.children.map(({ data }) => ({
+    title: data.title,
+    upvotes: data.ups,
+    url: data.url,
+    author: data.author,
+    comments: data.num_comments,
+    commentsUrl: `https://reddit.com${data.permalink}`,
     source: 'Reddit',
   }));
   return formattedData;
