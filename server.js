@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 const knex = require('knex');
+const auth = require('./middleware/auth');
 const jwt = require('jsonwebtoken');
 
 const signin = require('./controllers/signin');
@@ -57,7 +58,7 @@ app.get('/twitchstreams', (req, res) => {
   twitchstreams.handleTwitchRequest(req, res);
 });
 
-app.get('/user', (req, res) => {
+app.get('/user', auth.requireAuth, (req, res) => {
   const authToken = req.get('Authorization') || '';
 
   let bearerToken;
