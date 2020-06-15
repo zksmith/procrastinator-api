@@ -58,7 +58,7 @@ app.get('/twitchstreams', (req, res) => {
 });
 
 app.get('/user', (req, res) => {
-  const { authToken } = req.get('Authorization') || '';
+  const authToken = req.get('Authorization') || '';
 
   let bearerToken;
   if (!authToken.toLowerCase().startsWith('bearer ')) {
