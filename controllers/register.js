@@ -24,7 +24,7 @@ const handleRegister = (req, res, db, bcrypt) => {
             joined: new Date(),
           })
           .then((user) => {
-            const newToken = jwt.sign(user[0], process.env.JWT_KEY);
+            const newToken = jwt.sign(user[0].id, process.env.JWT_KEY);
             res.json({ user: user[0], new_token: newToken });
           });
       })

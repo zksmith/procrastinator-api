@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 const knex = require('knex');
+const jwt = require('jsonwebtoken');
 
 const signin = require('./controllers/signin');
 const register = require('./controllers/register');
@@ -54,6 +55,29 @@ app.get('/newyorktimes', (req, res) => {
 
 app.get('/twitchstreams', (req, res) => {
   twitchstreams.handleTwitchRequest(req, res);
+});
+
+app.get('/user', (req, res) => {
+  const { authToken } = req.get('Authorization') || '';
+
+  let bearerToken;
+  if (!authToken.toLowerCase().startsWith('bearer ')) {
+    return res.status(401).json({ error: 'Missing bearer token' });
+  } else {
+    bearerToken = authToken.slice(7, authToken.length);
+  }
+
+  const payload = jwt.verify(bearerToken, process.env.JWT_KEY);
+
+  db.select('*')
+    .from('users')
+    .where('id', '=', payload.id)
+    .then((user) => {
+      res.json(user[0]);
+    })
+    .catch((err) => res.status(400).json('unable to get user'));
+
+  res.json();
 });
 
 const PORT = process.env.PORT;

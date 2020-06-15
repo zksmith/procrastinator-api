@@ -23,7 +23,7 @@ const handleSignin = (req, res, db, bcrypt) => {
           .from('users')
           .where('email', '=', email)
           .then((user) => {
-            const newToken = jwt.sign(user[0], process.env.JWT_KEY);
+            const newToken = jwt.sign(user[0].id, process.env.JWT_KEY);
             res.json({ user: user[0], new_token: newToken });
           })
           .catch((err) => res.status(400).json('unable to get user'));
