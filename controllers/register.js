@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 const handleRegister = (req, res, db, bcrypt) => {
   const { email, name, password } = req.body;
 
@@ -22,7 +24,8 @@ const handleRegister = (req, res, db, bcrypt) => {
             joined: new Date(),
           })
           .then((user) => {
-            res.json(user[0]);
+            const newToken = jwt.sign(user[0], process.env.JWT_KEY);
+            res.json({ user: user[0], new_token: newToken });
           });
       })
       .then(trx.commit)
