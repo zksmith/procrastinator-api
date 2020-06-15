@@ -7,7 +7,7 @@ const requireAuth = (req, res, next) => {
     return res.status(401).json('Unauthorized');
   }
 
-  const jwtToken = authorizaton.slice(7, authorizaton.length);
+  const jwtToken = authorization.slice(7, authorization.length);
   if (!jwt.verify(jwtToken, process.env.JWT_KEY)) {
     return res.status(401).json('Unauthorized');
   }
