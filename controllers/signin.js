@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 const handleSignin = (req, res, db, bcrypt) => {
   const { email, password, token } = req.body;
 
