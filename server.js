@@ -73,11 +73,9 @@ app.get('/user', (req, res) => {
     .from('users')
     .where('id', '=', payload.id)
     .then((user) => {
-      res.json(user[0]);
+      return res.json(user[0]);
     })
     .catch((err) => res.status(400).json('unable to get user'));
-
-  res.json();
 });
 
 const PORT = process.env.PORT;
