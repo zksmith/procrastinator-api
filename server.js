@@ -68,11 +68,10 @@ app.get('/user', (req, res) => {
   }
 
   const payload = jwt.verify(bearerToken, process.env.JWT_KEY);
-  console.log(payload);
 
   db.select('*')
     .from('users')
-    .where('id', '=', payload.id)
+    .where('id', '=', payload)
     .then((user) => {
       return res.json(user[0]);
     })
