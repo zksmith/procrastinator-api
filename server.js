@@ -68,6 +68,7 @@ app.get('/user', (req, res) => {
   }
 
   const payload = jwt.verify(bearerToken, process.env.JWT_KEY);
+  console.log(payload);
 
   db.select('*')
     .from('users')
