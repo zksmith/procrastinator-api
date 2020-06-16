@@ -4,10 +4,10 @@ const shuffle = require('knuth-shuffle').knuthShuffle;
 const handleAllRequest = async (req, res) => {
   try {
     const dataRequests = [
-      services.redditApi,
-      services.hackerNewsApi,
-      services.githubApi,
-      services.nytApi,
+      services.redditApi(),
+      services.hackerNewsApi(),
+      services.githubApi(),
+      services.nytApi(),
     ];
     const allData = await Promise.all(dataRequests);
     console.log(allData);
