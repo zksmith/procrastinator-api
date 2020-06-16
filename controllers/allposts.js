@@ -3,18 +3,16 @@ const shuffle = require('knuth-shuffle').knuthShuffle;
 
 const handleAllRequest = async (req, res) => {
   try {
-    const redditData = await services.redditApi();
-    const hackerNewsData = await services.hackerNewsApi();
-    const githubData = await services.githubApi();
-    const nytData = await services.nytApi();
+    const dataRequests = [
+      services.redditApi,
+      services.hackerNewsApi,
+      services.githubApi,
+      services.nytApi,
+    ];
+    const allData = await Promise.all(dataRequests);
 
     //Randomize the data array using "Knuth Shuffle"
-    const shuffled = shuffle([
-      ...redditData,
-      ...hackerNewsData,
-      ...githubData,
-      ...nytData,
-    ]);
+    const shuffled = shuffle(allData);
 
     res.json(shuffled);
   } catch (err) {
