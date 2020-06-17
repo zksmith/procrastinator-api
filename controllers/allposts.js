@@ -10,9 +10,10 @@ const handleAllRequest = async (req, res) => {
       services.nytApi(),
     ];
     const allData = await Promise.all(dataRequests);
+    let mergedArray = allData.reduce((a, b) => [...a, ...b]);
 
     //Randomize the data array using "Knuth Shuffle"
-    const shuffled = shuffle(allData[0]);
+    const shuffled = shuffle(mergedArray);
 
     res.json(shuffled);
   } catch (err) {
