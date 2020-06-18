@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 
 const signin = require('./controllers/signin');
 const register = require('./controllers/register');
+const user = require('./controllers/user');
 const bookmark = require('./controllers/bookmark');
 const allposts = require('./controllers/allposts');
 const reddit = require('./controllers/reddit');
@@ -59,24 +60,7 @@ app.get('/twitchstreams', (req, res) => {
 });
 
 app.get('/user', auth.requireAuth, (req, res) => {
-  const authToken = req.get('Authorization') || '';
-
-  let bearerToken;
-  if (!authToken.toLowerCase().startsWith('bearer ')) {
-    return res.status(401).json({ error: 'Missing bearer token' });
-  } else {
-    bearerToken = authToken.slice(7, authToken.length);
-  }
-
-  const payload = jwt.verify(bearerToken, process.env.JWT_KEY);
-
-  db.select('*')
-    .from('users')
-    .where('id', '=', payload)
-    .then((user) => {
-      return res.json(user[0]);
-    })
-    .catch((err) => res.status(400).json('unable to get user'));
+  user.handleUserRequest(req, res);
 });
 
 const PORT = process.env.PORT;
