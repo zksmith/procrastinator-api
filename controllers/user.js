@@ -1,4 +1,4 @@
-const handleUserRequest = (req, res) => {
+const handleUserRequest = (req, res, db) => {
   db.select('*')
     .from('users')
     .where('id', '=', req.id)
