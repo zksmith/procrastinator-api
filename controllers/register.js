@@ -25,7 +25,7 @@ const handleRegister = (req, res, db, bcrypt) => {
           })
           .then((user) => {
             const newToken = jwt.sign({ id: user[0].id }, process.env.JWT_KEY, {
-              expires: 604800,
+              expiresIn: 604800,
             });
             res.json({ user: user[0], new_token: newToken });
           });
