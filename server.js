@@ -59,8 +59,8 @@ app.get('/twitchstreams', (req, res) => {
   twitchstreams.handleTwitchRequest(req, res);
 });
 
-app.get('/user', auth.requireAuth, (req, res, db) => {
-  user.handleUserRequest(req, res);
+app.get('/user', auth.requireAuth, (req, res) => {
+  user.handleUserRequest(req, res, db);
 });
 
 const PORT = process.env.PORT;
