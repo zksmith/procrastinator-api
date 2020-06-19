@@ -23,7 +23,7 @@ const handleSignin = (req, res, db, bcrypt) => {
             });
             res.json({ user: user[0], new_token: newToken });
           })
-          .catch((err) => res.status(400).json('unable to get user'));
+          .catch((err) => res.status(400).json(err));
       } else {
         res.status(400).json('wrond credentials');
       }
