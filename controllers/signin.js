@@ -18,7 +18,7 @@ const handleSignin = (req, res, db, bcrypt) => {
           .from('users')
           .where('email', '=', email)
           .then((user) => {
-            const newToken = jwt.sign(user[0].id, process.env.JWT_KEY, {
+            const newToken = jwt.sign({ id: user[0].id }, process.env.JWT_KEY, {
               expires: 604800,
             });
             res.json({ user: user[0], new_token: newToken });
