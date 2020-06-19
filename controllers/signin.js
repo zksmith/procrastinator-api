@@ -23,9 +23,9 @@ const handleSignin = (req, res, db, bcrypt) => {
             });
             res.json({ user: user[0], new_token: newToken });
           })
-          .catch((err) => res.status(400).json(err));
+          .catch((err) => res.status(400).json('Error fetching user'));
       } else {
-        res.status(400).json('wrond credentials');
+        res.status(400).json('wrong credentials');
       }
     })
     .catch((err) => res.status(400).json('wrong credentials'));
