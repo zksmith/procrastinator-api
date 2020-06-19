@@ -1,12 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const handleSignin = (req, res, db, bcrypt) => {
-  const { email, password, token } = req.body;
-
-  if (token) {
-    const user = jwt.verify(token, process.env.JWT_KEY);
-    return res.json(user);
-  }
+  const { email, password } = req.body;
 
   if (!email || !password) {
     return res.status(400).json('incorrect form submission');
@@ -23,7 +18,9 @@ const handleSignin = (req, res, db, bcrypt) => {
           .from('users')
           .where('email', '=', email)
           .then((user) => {
-            const newToken = jwt.sign(user[0].id, process.env.JWT_KEY);
+            const newToken = jwt.sign(user[0].id, process.env.JWT_KEY, {
+              expires: 604800,
+            });
             res.json({ user: user[0], new_token: newToken });
           })
           .catch((err) => res.status(400).json('unable to get user'));
