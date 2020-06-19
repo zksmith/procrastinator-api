@@ -21,6 +21,7 @@ const handleSignin = (req, res, db, bcrypt) => {
             const newToken = jwt.sign({ id: user[0].id }, process.env.JWT_KEY, {
               expires: 604800,
             });
+            console.log(newToken);
             res.json({ user: user[0], new_token: newToken });
           })
           .catch((err) => res.status(400).json(err));
