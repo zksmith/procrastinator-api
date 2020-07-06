@@ -45,20 +45,24 @@ const hackerNewsApi = async () => {
 
 // Github Data
 const githubApi = async () => {
-  const response = await axios.get(
-    'https://ghapi.huchen.dev/repositories?since=daily'
-  );
+  try {
+    const response = await axios.get(
+      'https://ghapi.huchen.dev/repositories?since=daily'
+    );
 
-  const formattedData = response.data.slice(0, 25).map((object) => ({
-    title: object.description,
-    stars: object.stars,
-    url: object.url,
-    author: object.author,
-    forks: object.forks,
-    source: 'Github Trending',
-  }));
+    const formattedData = response.data.slice(0, 25).map((object) => ({
+      title: object.description,
+      stars: object.stars,
+      url: object.url,
+      author: object.author,
+      forks: object.forks,
+      source: 'Github Trending',
+    }));
 
-  return formattedData;
+    return formattedData;
+  } catch (err) {
+    return [];
+  }
 };
 
 // New York times data
