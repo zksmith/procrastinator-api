@@ -20,27 +20,31 @@ const redditApi = async () => {
 
 // Hacker news data
 const hackerNewsApi = async () => {
-  const response = await axios.get(
-    'https://hacker-news.firebaseio.com/v0/topstories.json'
-  );
-  const apiRequestsUrls = response.data
-    .slice(0, 25)
-    .map((id) => `https://hacker-news.firebaseio.com/v0/item/${id}.json`);
+  try {
+    const response = await axios.get(
+      'https://hacker-news.firebaseio.com/v0/topstories.json'
+    );
+    const apiRequestsUrls = response.data
+      .slice(0, 25)
+      .map((id) => `https://hacker-news.firebaseio.com/v0/item/${id}.json`);
 
-  const allNewsData = await axios.all(
-    apiRequestsUrls.map((url) => axios.get(url))
-  );
+    const allNewsData = await axios.all(
+      apiRequestsUrls.map((url) => axios.get(url))
+    );
 
-  const formattedData = allNewsData.map(({ data }) => ({
-    title: data.title,
-    upvotes: data.score,
-    url: data.url,
-    author: data.by,
-    comments: data.descendants,
-    source: 'Hacker News',
-  }));
+    const formattedData = allNewsData.map(({ data }) => ({
+      title: data.title,
+      upvotes: data.score,
+      url: data.url,
+      author: data.by,
+      comments: data.descendants,
+      source: 'Hacker News',
+    }));
 
-  return formattedData;
+    return formattedData;
+  } catch (err) {
+    return [];
+  }
 };
 
 // Github Data
@@ -67,19 +71,23 @@ const githubApi = async () => {
 
 // New York times data
 const nytApi = async () => {
-  const response = await axios.get(
-    `https://api.nytimes.com/svc/topstories/v2/home.json?api-key=${process.env.NYT_API_KEY}`
-  );
+  try {
+    const response = await axios.get(
+      `https://api.nytimes.com/svc/topstories/v2/home.json?api-key=${process.env.NYT_API_KEY}`
+    );
 
-  const formattedData = response.data.results.slice(0, 25).map((object) => ({
-    title: object.title,
-    section: object.section,
-    url: object.url,
-    author: object.byline,
-    source: 'New York Times',
-  }));
+    const formattedData = response.data.results.slice(0, 25).map((object) => ({
+      title: object.title,
+      section: object.section,
+      url: object.url,
+      author: object.byline,
+      source: 'New York Times',
+    }));
 
-  return formattedData;
+    return formattedData;
+  } catch (err) {
+    return [];
+  }
 };
 
 // Twitch Data
@@ -92,16 +100,20 @@ const helix = axios.create({
 });
 
 const twitchApi = async () => {
-  const response = await helix.get('streams?first=100');
+  try {
+    const response = await helix.get('streams?first=100');
 
-  const formattedData = response.data.data.map((object) => ({
-    title: object.title,
-    viewers: object.viewer_count,
-    thumbnail: object.thumbnail_url,
-    user: object.user_name,
-  }));
+    const formattedData = response.data.data.map((object) => ({
+      title: object.title,
+      viewers: object.viewer_count,
+      thumbnail: object.thumbnail_url,
+      user: object.user_name,
+    }));
 
-  return formattedData;
+    return formattedData;
+  } catch (err) {
+    return [];
+  }
 };
 
 module.exports = {
