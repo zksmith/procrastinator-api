@@ -17,6 +17,7 @@ const handleAllRequest = async (req, res) => {
 
     res.json(shuffled);
   } catch (err) {
+    console.log(err);
     res.status(500).json('Error loading data');
   }
 };
