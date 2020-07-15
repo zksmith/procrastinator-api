@@ -122,7 +122,7 @@ const phApi = async () => {
       method: 'post',
       url: 'https://api.producthunt.com/v2/api/graphql',
       headers: {
-        Authorization: 'Bearer 8DwdhaYzUGIpp6dJh7q-sk1yuSkDFJD9zS8xnqKaVkA',
+        Authorization: `Bearer ${process.env.PH_API_KEY}`,
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
