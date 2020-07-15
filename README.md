@@ -29,4 +29,5 @@ All requests and responses are in JSON format.
 | All Posts      | https://procrastinator-api.herokuapp.com/allposts     |
 | Reddit         | https://procrastinator-api.herokuapp.com/reddit       |
 | Hacker News    | https://procrastinator-api.herokuapp.com/hackernews   |
+| Product Hunt   | https://procrastinator-api.herokuapp.com/producthunt  |
 | New York Times | https://procrastinator-api.herokuapp.com/newyorktimes |
