@@ -116,10 +116,59 @@ const twitchApi = async () => {
   }
 };
 
+const phApi = async () => {
+  try {
+    const response = await axios({
+      method: 'post',
+      url: 'https://api.producthunt.com/v2/api/graphql',
+      headers: {
+        Authorization: 'Bearer 8DwdhaYzUGIpp6dJh7q-sk1yuSkDFJD9zS8xnqKaVkA',
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      data: {
+        query: `query { posts(first: 5, order: VOTES) {
+          edges{
+            cursor
+            node{
+              name
+              tagline
+              url
+              reviewsCount
+              commentsCount
+              website
+              user {
+                name
+              }
+            }}}}`,
+      },
+    });
+    console.log(response.data);
+
+    const formattedData = response.data.data.posts.edges.map(({ node }) => {
+      console.log(node);
+      return {
+        title: `${node.name} - ${node.tagline}`,
+        upvotes: node.reviewsCount,
+        url: node.website,
+        author: node.user.name,
+        comments: node.commentsCount,
+        commentsUrl: node.url,
+        source: 'Product Hunt',
+      };
+    });
+    return formattedData;
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
+};
+
 module.exports = {
   redditApi,
   hackerNewsApi,
   githubApi,
   nytApi,
   twitchApi,
+  phApi,
 };

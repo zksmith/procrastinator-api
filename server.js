@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 const knex = require('knex');
 const auth = require('./middleware/auth');
-const jwt = require('jsonwebtoken');
 
 const signin = require('./controllers/signin');
 const register = require('./controllers/register');
@@ -15,6 +14,8 @@ const hackernews = require('./controllers/hackernews');
 const githubtrending = require('./controllers/githubtrending');
 const newyorktimes = require('./controllers/newyorktimes');
 const twitchstreams = require('./controllers/twitchstreams');
+const producthunt = require('./controllers/producthunt');
+const { handleNYTRequest } = require('./controllers/producthunt');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
@@ -50,6 +51,10 @@ app.get('/hackernews', (req, res) => hackernews.handleHNRequest(req, res));
 app.get('/githubtrending', (req, res) =>
   githubtrending.handleGithubRequest(req, res)
 );
+
+app.get('/producthunt', (req, res) => {
+  producthunt.handlePhRequest(req, res);
+});
 
 app.get('/newyorktimes', (req, res) => {
   newyorktimes.handleNYTRequest(req, res);
