@@ -7,7 +7,7 @@ const handleAllRequest = async (req, res) => {
       services.redditApi(),
       services.hackerNewsApi(),
       services.githubApi(),
-      services.nytApi(),
+      services.phApi(),
     ];
     const allData = await Promise.all(dataRequests);
     let mergedArray = allData.reduce((a, b) => [...a, ...b]);
