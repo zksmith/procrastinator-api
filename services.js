@@ -127,7 +127,7 @@ const phApi = async () => {
         'Content-Type': 'application/json',
       },
       data: {
-        query: `query { posts(first: 5, order: VOTES) {
+        query: `query { posts(first: 25, order: VOTES) {
           edges{
             cursor
             node{
